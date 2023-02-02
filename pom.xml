@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.nttdata.bootcamp</groupId>
-    <artifactId>movement-microservice</artifactId>
+    <artifactId>ms-movement</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>movement</name>
     <description>Movement Microservice</description>
