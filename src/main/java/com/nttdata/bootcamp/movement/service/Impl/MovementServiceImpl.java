@@ -1,4 +1,4 @@
-package com.nttdata.bootcamp.movement.service.impl;
+package com.nttdata.bootcamp.movement.service.Impl;
 
 import com.nttdata.bootcamp.movement.entity.Movement;
 import com.nttdata.bootcamp.movement.repository.MovementRepository;
@@ -62,11 +62,11 @@ public class MovementServiceImpl implements MovementService {
         try {
             dataMovement.setDni(transactionMono.block().getDni());
             dataMovement.setAmount(transactionMono.block().getAmount());
-            dataMovement.setAccountNumber(transactionMono.block().getAccountNumber());
+            dataMovement.setAccountId(transactionMono.block().getAccountId());
             dataMovement.setMovementNumber(transactionMono.block().getMovementNumber());
-            dataMovement.setTypeTransaction(transactionMono.block().getTypeTransaction());
+            dataMovement.setProductType(transactionMono.block().getProductType());
             dataMovement.setStatus(transactionMono.block().getStatus());
-            dataMovement.setCreationDate(transactionMono.block().getCreationDate());
+            dataMovement.setTransactionDate(transactionMono.block().getTransactionDate());
             return movementRepository.save(dataMovement);
         } catch (Exception e) {
             return Mono.<Movement>error(new Error("The movement " + dataMovement.getMovementNumber() + " do not exists"));
@@ -82,6 +82,24 @@ public class MovementServiceImpl implements MovementService {
         } catch (Exception e) {
             return Mono.<Void>error(new Error("The movement number" + Number + " do not exists"));
         }
+    }
+    
+    @Override
+    public Flux<Movement> geDebitByIdAccount(Integer accountId){
+        return movementRepository.findAll()
+                .filter(tran -> tran.getAccountId() == accountId);
+    }
+    
+    @Override
+    public Mono<Movement> geDebitByIdCustomer(String customerId){
+        return movementRepository.findAll()
+                .filter(tran -> tran.getCustomerId().equals(customerId)).next();
+    }
+    
+    @Override
+    public Flux<Movement> getMovementByIdCustomer(String customerId){
+        return movementRepository.findAll()
+                .filter(tran -> tran.getCustomerId().equals(customerId));
     }
 
 }

@@ -59,10 +59,8 @@ public class MovementController {
     public Mono<Movement> saveTransactionOrigin(@RequestBody Movement dataMovement) {
         Mono.just(dataMovement).doOnNext(t -> {
 
-                    t.setCreationDate(new Date());
+        			t.setTransactionDate(new Date());
                     t.setModificationDate(new Date());
-                    t.setTypeTransaction("Transfer");
-
                 }).onErrorReturn(dataMovement).onErrorResume(e -> Mono.just(dataMovement))
                 .onErrorMap(f -> new InterruptedException(f.getMessage())).subscribe(x -> log.info(x.toString()));
 
@@ -73,12 +71,8 @@ public class MovementController {
     @PostMapping(value = "/saveTransactionDestination")
     public Mono<Movement> saveTransactionDestination(@RequestBody Movement dataMovement) {
         Mono.just(dataMovement).doOnNext(t -> {
-
-                    t.setCreationDate(new Date());
+                    t.setTransactionDate(new Date());
                     t.setModificationDate(new Date());
-                    t.setTypeTransaction("Transfer");
-
-
                 }).onErrorReturn(dataMovement).onErrorResume(e -> Mono.just(dataMovement))
                 .onErrorMap(f -> new InterruptedException(f.getMessage())).subscribe(x -> log.info(x.toString()));
 
@@ -111,6 +105,21 @@ public class MovementController {
         Mono<Void> delete = movementService.deleteMovement(numberMovement);
         return delete;
 
+    }
+    
+    @GetMapping("/account/{id}")
+    public Flux<Movement> geDebitByIdAccount(@PathVariable Integer id) {
+        return movementService.geDebitByIdAccount(id);
+    }
+    
+    @GetMapping("/customer/{id}")
+    public Mono<Movement> geDebitByIdCustomer(@PathVariable String id) {
+        return movementService.geDebitByIdCustomer(id);
+    }
+    
+    @GetMapping("/debitcredit/{id}")
+    public Flux<Movement> getMovementByIdCustomer(@PathVariable String id) {
+        return movementService.getMovementByIdCustomer(id);
     }
 
     private Mono<Movement> fallBackGetMovement(Exception e) {

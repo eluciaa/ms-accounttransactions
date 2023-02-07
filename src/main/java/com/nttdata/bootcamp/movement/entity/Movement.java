@@ -26,15 +26,14 @@ public class Movement {
     @Id
     private String id;
 
-    @NotNull
-    @Size(min = 8, max = 8)
     private String dni;
-
-    @NotBlank
+    
     private String accountNumber;
 
+    private Integer accountId;
+
     @NotBlank
-    private String typeTransaction;
+    private String productType;
 
     @NotBlank
     private String movementNumber;
@@ -52,10 +51,14 @@ public class Movement {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     @CreatedDate
-    private Date creationDate;
+    private Date transactionDate;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     @LastModifiedDate
     private Date modificationDate;
+    
+    private TypeCurrency currency;
+    private String customerId;
+    private String transactionType;
 
 }

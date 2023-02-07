@@ -21,4 +21,10 @@ public interface MovementService {
 
     public Mono<Void> deleteMovement(String accountNumber);
 
+    public Flux<Movement> geDebitByIdAccount(Integer accountId);
+
+    public Mono<Movement> geDebitByIdCustomer(String customerId);
+
+    public Flux<Movement> getMovementByIdCustomer(String customerId);
+
 }
